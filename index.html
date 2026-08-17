@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Il cervello sociale al comando — XXIX ISSMI</title>
+<meta name="theme-color" content="#16324F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{
+  --navy:#16324F; --teal:#1F7A78; --gold:#8A6508; --gold-br:#B8860B;
+  --paper:#FBFBF9; --ink:#14181C; --grey:#5A6672; --line:#D9DEE3;
+  --tint:#F1F5F7; --warn:#7A2E2E;
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--sans);
+  font-size:16.5px; line-height:1.55; -webkit-text-size-adjust:100%;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px 72px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;
+  padding:calc(10px + env(safe-area-inset-top)) 0 10px;
+}
+.hd{max-width:640px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px}
+.hd .ttl{font-family:var(--serif);font-size:16px;line-height:1.2;flex:1;min-width:0}
+.hd .ttl small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.10em;
+  text-transform:uppercase;color:#A9C2D6;margin-bottom:3px}
+.langbtn{font-family:var(--mono);font-size:12px;letter-spacing:.06em;background:transparent;
+  color:#fff;border:1px solid #4E7292;border-radius:3px;padding:6px 9px;cursor:pointer}
+.langbtn b{color:#fff}
+.langbtn span{color:#7E9DB8}
+.backbtn{font-family:var(--mono);font-size:12px;background:transparent;color:#A9C2D6;
+  border:0;padding:6px 2px;cursor:pointer}
+
+/* ---------- type ---------- */
+h1{font-family:var(--serif);font-size:27px;line-height:1.2;margin:26px 0 8px;color:var(--navy);font-weight:normal}
+h2{font-family:var(--serif);font-size:21px;line-height:1.25;margin:30px 0 8px;color:var(--navy);font-weight:normal}
+h3{font-size:15px;margin:22px 0 6px;color:var(--teal);letter-spacing:.01em}
+p{margin:0 0 12px}
+.lede{color:var(--grey);font-size:15.5px;margin-bottom:18px}
+.small{font-size:14px;color:var(--grey)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--teal);margin:0 0 6px}
+.tag{font-family:var(--mono);font-size:12px;color:var(--gold);white-space:nowrap}
+.tag.c{color:var(--teal)} .tag.h{color:var(--grey)}
+.hr{height:1px;background:var(--line);margin:26px 0}
+
+/* ---------- cards ---------- */
+.card{background:#fff;border:1px solid var(--line);border-radius:5px;padding:16px 16px 14px;margin:0 0 14px}
+.card.tint{background:var(--tint);border-color:#CCD8DF}
+.card h3{margin-top:0}
+.note{background:var(--tint);border:1px solid #CCD8DF;border-radius:5px;padding:12px 14px;
+  font-size:14.5px;color:#2C3D4C;margin:0 0 16px}
+.note b{color:var(--navy)}
+
+/* ---------- index list ---------- */
+.idx{list-style:none;margin:0;padding:0}
+.idx li{border-top:1px solid var(--line)}
+.idx li:last-child{border-bottom:1px solid var(--line)}
+.idx a{display:flex;gap:14px;align-items:baseline;padding:15px 2px;text-decoration:none;color:var(--ink)}
+.idx .m{font-family:var(--mono);font-size:11.5px;color:var(--teal);width:34px;flex:none;letter-spacing:.04em}
+.idx .n{flex:1;font-family:var(--serif);font-size:17.5px;color:var(--navy)}
+.idx .n em{display:block;font-family:var(--sans);font-style:normal;font-size:13.5px;color:var(--grey);margin-top:2px}
+.idx .st{font-family:var(--mono);font-size:11px;color:var(--grey);flex:none}
+.idx .st.ok{color:var(--teal)}
+
+/* ---------- controls ---------- */
+button,input,textarea,select{font-family:inherit;font-size:16px}
+.btn{display:block;width:100%;background:var(--navy);color:#fff;border:0;border-radius:4px;
+  padding:14px 16px;cursor:pointer;font-size:16px;margin:16px 0 0;text-align:center}
+.btn:disabled{background:#9AA7B2;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--navy)}
+.btn.sm{padding:10px 14px;font-size:14.5px;margin-top:10px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);
+  border-radius:5px;padding:13px 14px;margin:0 0 9px;cursor:pointer;line-height:1.45;color:var(--ink)}
+.opt:hover{border-color:var(--teal)}
+.opt.sel{border-color:var(--navy);border-width:2px;padding:12px 13px;background:var(--tint)}
+.opt .k{font-family:var(--mono);font-size:11.5px;color:var(--teal);display:block;margin-bottom:3px;
+  letter-spacing:.08em;text-transform:uppercase}
+.opt.right{border-color:var(--teal);background:#EEF6F5}
+.opt.wrong{border-color:#C9A9A9;background:#FAF2F2}
+input[type=number],input[type=text],textarea{
+  width:100%;padding:12px;border:1px solid var(--line);border-radius:4px;background:#fff}
+textarea{min-height:80px;resize:vertical;line-height:1.5}
+input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--teal)}
+.slabel{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--grey);margin-top:2px}
+.sval{font-family:var(--mono);font-size:22px;color:var(--navy);text-align:center;margin:6px 0 0}
+
+/* likert */
+.lk{display:flex;gap:6px;margin-top:8px}
+.lk button{flex:1;padding:11px 0;border:1px solid var(--line);background:#fff;border-radius:4px;
+  font-family:var(--mono);font-size:14px;color:var(--grey);cursor:pointer}
+.lk button.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+.lkends{display:flex;justify-content:space-between;font-size:12px;color:var(--grey);margin-top:5px}
+
+/* ranked bars */
+.rank{margin:14px 0 0}
+.rank .row{margin:0 0 11px}
+.rank .rl{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;margin-bottom:4px}
+.rank .rl b{font-weight:600;color:var(--navy)}
+.rank .rl span{font-family:var(--mono);font-size:12px;color:var(--grey)}
+.rank .bar{height:9px;background:#E7ECEF;border-radius:2px;overflow:hidden}
+.rank .fill{height:100%;background:var(--teal)}
+.rank .row.top .fill{background:var(--navy)}
+
+/* progress */
+.prog{font-family:var(--mono);font-size:11.5px;color:var(--grey);letter-spacing:.08em;margin:0 0 14px}
+.dossier{border:1px solid var(--line);border-radius:5px;overflow:hidden;margin:0 0 14px}
+.dossier .dh{background:var(--navy);color:#fff;padding:9px 14px;font-family:var(--mono);
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
+.dossier .db{padding:13px 14px;background:#fff}
+.dossier ul{margin:0;padding-left:18px}
+.dossier li{margin-bottom:6px;font-size:15px}
+.sys{border:1px solid var(--gold-br);border-radius:5px;margin:0 0 14px;overflow:hidden}
+.sys .dh{background:#F6EEDC;color:#5C4406;padding:9px 14px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.1em;text-transform:uppercase}
+.sys .db{padding:13px 14px;background:#FDFAF3;font-size:15px}
+.sys .score{font-family:var(--mono);font-size:15px;color:var(--navy);margin:6px 0}
+.sys .fine{font-size:12.5px;color:var(--grey);margin-top:9px;line-height:1.45}
+
+.ex{background:var(--tint);border:1px solid #CCD8DF;border-radius:4px;padding:11px 13px;margin:12px 0 0;font-size:14px;line-height:1.5;color:#2C3D4C}
+.ex p{margin:0 0 6px}
+.ex b{color:var(--navy)}
+.qa{margin:0 0 6px;font-size:15px}
+.qa dt{font-family:var(--serif);color:var(--navy);font-size:16px;margin-top:14px}
+.qa dd{margin:3px 0 0;color:#25313C}
+.refl{list-style:none;padding:0;margin:0}
+.refl li{font-size:13.5px;color:#2C3D4C;padding:8px 0;border-top:1px solid var(--line);line-height:1.45}
+footer{margin:34px 0 0;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--grey)}
+.fade{animation:f .22s ease-out}
+@keyframes f{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd">
+    <button class="backbtn" id="back" hidden>&larr;</button>
+    <div class="ttl"><small id="hsup">XXIX ISSMI · Leadership</small><span id="htitle">Il cervello sociale al comando</span></div>
+    <button class="langbtn" id="lang"><b>IT</b><span> / EN</span></button>
+  </div>
+</header>
+<div class="wrap"><main id="app"></main>
+<footer id="foot"></footer></div>
+
+<script>
+"use strict";
+/* ============================================================
+   STATO — tutto in locale, niente rete, niente trasmissione
+   ============================================================ */
+var KEY="issmi29.v2";
+var S={lang:"it",cond:null,day:null,t0:{},t1:{},sa:{},sb:{},sc:{},t3:{},t3pick:null};
+try{var raw=localStorage.getItem(KEY); if(raw){S=Object.assign(S,JSON.parse(raw));}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function L(o){return o?(o[S.lang]||o.it):"";}
+
+/* ============================================================
+   CONTENUTI
+   ============================================================ */
+var UI={
+  sup:{it:"XXIX ISSMI · Modulo Leadership",en:"XXIX ISSMI · Leadership Module"},
+  title:{it:"Il cervello sociale al comando",en:"The social brain in command"},
+  sub:{it:"Stati, decisioni e attribuzione di mente in ambienti misti uomo–macchina",
+       en:"States, decisions and the attribution of mind in mixed human–machine environments"},
+  teacher:{it:"Dott. Federico Petrozzi — 18 settembre",en:"Federico Petrozzi — 18 September"},
+  privacy:{it:"Nessun dato lascia questo telefono. Non c'è un server, non c'è registrazione, non c'è invio. Tutto quello che scrivi resta nella memoria del browser e puoi cancellarlo in fondo a questa pagina.",
+           en:"No data leaves this phone. There is no server, no logging, no transmission. Everything you enter stays in your browser and you can erase it at the bottom of this page."},
+  open:{it:"Apri",en:"Open"}, done:{it:"fatto",en:"done"}, todo:{it:"—",en:"—"},
+  next:{it:"Avanti",en:"Next"}, back:{it:"Indietro",en:"Back"},
+  home:{it:"Torna all'indice",en:"Back to contents"},
+  confirm:{it:"Conferma",en:"Confirm"},
+  reset:{it:"Cancella tutte le mie risposte da questo telefono",en:"Erase all my answers from this phone"},
+  resetok:{it:"Vuoi davvero cancellare tutto? L'operazione non è reversibile.",en:"Erase everything? This cannot be undone."},
+  foot:{it:"Applicazione didattica · nessun dato raccolto · funziona anche senza rete",
+        en:"Teaching app · no data collected · works offline"},
+  locked:{it:"Questa parte si apre in aula, quando il docente lo indica.",en:"This part opens in class, when the instructor says so."}
+};
+
+var SEC=[
+  {id:"t0",m:"M0",n:{it:"Una decisione",en:"One decision"},d:{it:"Selezione di un ufficiale per un incarico. Otto minuti.",en:"Selecting an officer for an assignment. Eight minutes."}},
+  {id:"t1",m:"M1",n:{it:"I due modi",en:"The two modes"},d:{it:"Quanto pesa il modo analitico nella tua settimana.",en:"How much the analytic mode weighs in your week."}},
+  {id:"sc",m:"M2",n:{it:"SCARF, in tre passaggi",en:"SCARF, in three steps"},d:{it:"Il tuo ordine di sensibilità, l'evento a cinque letture, la griglia sull'IA.",en:"Your sensitivity order, the five-lens event, the AI grid."}},
+  {id:"t2",m:"M3",n:{it:"Che cosa è successo",en:"What happened"},d:{it:"Apri solo quando il docente lo dice.",en:"Open only when the instructor says so."}},
+  {id:"t3",m:"M5",n:{it:"Tre protocolli",en:"Three protocols"},d:{it:"Da portarti via scritti di tuo pugno.",en:"To take away in your own words."}},
+  {id:"rf",m:"·",n:{it:"Fonti, glossario, miti",en:"Sources, glossary, myths"},d:{it:"Riferimenti verificabili e cinque cose che non sentirai dire.",en:"Checkable references and five things you will not hear."}}
+];
+
+/* ---------------- T0 : vignetta ---------------- */
+var T0={
+  intro:{it:"Leggi il fascicolo e decidi. Non c'è una risposta ufficiale e nessuno vedrà la tua scelta: serve a te, fra due ore.",
+         en:"Read the file and decide. There is no official answer and nobody will see your choice: you will need it in two hours."},
+  codeq:{it:"Prima di cominciare, inserisci il <b>giorno del mese in cui sei nato</b> (da 1 a 31).",
+         en:"Before you start, enter <b>the day of the month you were born</b> (1 to 31)."},
+  codewhy:{it:"Serve solo a dividere l'aula in due gruppi senza che nessuno scelga. Il numero non viene salvato né trasmesso, e il motivo della divisione ti sarà chiaro più tardi.",
+           en:"It only splits the room into two groups without anyone choosing. The number is neither stored nor sent, and the reason for the split will be clear later."},
+  role:{it:"L'incarico",en:"The assignment"},
+  roletx:{it:"Coordinatore di una cellula interagenzia: dodici persone, tre amministrazioni diverse, due partner stranieri. Diciotto mesi. Nessuna procedura consolidata. Su metà del gruppo non hai autorità gerarchica: devi ottenere collaborazione senza poterla ordinare.",
+          en:"Coordinator of an interagency cell: twelve people, three different administrations, two foreign partners. Eighteen months. No established procedures. You have no hierarchical authority over half the group: you must obtain cooperation without being able to order it."},
+  a:{it:"Candidato A",en:"Candidate A"},
+  b:{it:"Candidato B",en:"Candidate B"},
+  al:{it:["Ultimi quattro cicli valutativi nel decile superiore, senza interruzioni",
+          "Ha guidato un reparto omogeneo di venti persone, all'interno della propria amministrazione",
+          "Due impieghi operativi, entrambi con catena di comando definita",
+          "Corso superiore di management concluso ai primi posti",
+          "Inglese operativo"],
+      en:["Last four evaluation cycles in the top decile, without interruption",
+          "Led a homogeneous unit of twenty within their own administration",
+          "Two operational deployments, both with a defined chain of command",
+          "Advanced management course completed near the top",
+          "Operational English"]},
+  bl:{it:["Valutazioni elevate, con una finestra di ventiquattro mesi non valutata: distacco presso un organismo multinazionale",
+          "Ha coordinato un gruppo di lavoro di nove persone su tre nazioni, senza autorità gerarchica",
+          "Un impiego operativo",
+          "Corso superiore di management non frequentato: era in distacco nella finestra utile",
+          "Inglese e una seconda lingua"],
+      en:["High evaluations, with a twenty-four month unscored window: secondment to a multinational body",
+          "Coordinated a nine-person working group across three nations, without hierarchical authority",
+          "One operational deployment",
+          "Advanced management course not attended: on secondment during the eligibility window",
+          "English and a second language"]},
+  sysh:{it:"Sistema di supporto alla decisione — DSS-P",en:"Decision support system — DSS-P"},
+  sysrec:{it:"Raccomandazione: <b>Candidato A</b>",en:"Recommendation: <b>Candidate A</b>"},
+  sysconf:{it:"Confidenza del modello: alta",en:"Model confidence: high"},
+  sysfine:{it:"Indice calcolato su valutazioni formali, corsi certificati e incarichi con punteggio.",
+           en:"Index computed on formal evaluations, certified courses and scored assignments."},
+  q1:{it:"Chi nomini?",en:"Who do you appoint?"},
+  q2:{it:"Quanto sei sicuro della tua scelta?",en:"How confident are you in your choice?"},
+  q3:{it:"Quanto ha pesato la raccomandazione del sistema sulla tua decisione?",
+      en:"How much did the system's recommendation weigh on your decision?"},
+  q4:{it:"In una riga: la ragione principale della tua scelta.",en:"In one line: the main reason for your choice."},
+  ph:{it:"Facoltativo. Resta sul tuo telefono.",en:"Optional. Stays on your phone."},
+  low:{it:"per nulla",en:"not at all"}, high:{it:"del tutto",en:"completely"},
+  saved:{it:"Registrato. Ci torniamo in M3 — non aprire quella sezione prima.",
+         en:"Recorded. We return to this in M3 — do not open that section before."}
+};
+
+/* ---------------- T1 : due modi ---------------- */
+var T1={
+  intro:{it:"Sei affermazioni sulla tua settimana lavorativa tipica. Non è un test validato: è uno specchio, e il punteggio serve solo a te.",
+         en:"Six statements about your typical working week. This is not a validated test: it is a mirror, and the score is for you alone."},
+  scale:{it:["mai","raramente","a volte","spesso","quasi sempre"],en:["never","rarely","sometimes","often","almost always"]},
+  items:{it:["Buona parte del mio tempo è occupata da dati, cruscotti, documenti e report.",
+             "Passo da una riunione all'altra senza un momento di transizione.",
+             "Mentre una persona mi parla, sto già preparando la risposta o la decisione.",
+             "Mi accorgo dello stato d'animo di un collaboratore solo quando è diventato un problema.",
+             "Le mie giornate migliori sono quelle in cui ho chiuso il maggior numero di questioni.",
+             "Faccio fatica a ricordare l'ultima conversazione con un collaboratore che non avesse un ordine del giorno."],
+         en:["Most of my time is taken up by data, dashboards, documents and reports.",
+             "I move from one meeting to the next with no transition.",
+             "While someone is speaking to me, I am already preparing the answer or the decision.",
+             "I notice a subordinate's state of mind only once it has become a problem.",
+             "My best days are the ones where I closed the highest number of items.",
+             "I struggle to recall my last conversation with a subordinate that had no agenda."]},
+  bands:{it:[
+    {max:13,t:"Modo analitico presente, alternanza conservata",
+     b:"Riesci ancora a passare dall'analisi alla lettura delle persone senza uno sforzo particolare. È una condizione da proteggere: si perde per accumulo, non per decisione."},
+    {max:22,t:"Modo analitico prevalente",
+     b:"La commutazione verso la lettura delle persone c'è, ma richiede un innesco esterno — di solito un problema già emerso. È la condizione più comune a questo livello di responsabilità."},
+    {max:30,t:"Modo analitico dominante",
+     b:"La giornata è costruita in modo da tenerti quasi sempre nel registro analitico. Non è un difetto di carattere e non si corregge con la buona volontà: si corregge cambiando la struttura della giornata, non l'intenzione."}],
+    en:[
+    {max:13,t:"Analytic mode present, alternation preserved",
+     b:"You can still switch from analysis to reading people without particular effort. Worth protecting: it is lost by accumulation, not by decision."},
+    {max:22,t:"Analytic mode prevalent",
+     b:"Switching towards reading people happens, but needs an external trigger — usually a problem that has already surfaced. This is the most common condition at this level of responsibility."},
+    {max:30,t:"Analytic mode dominant",
+     b:"Your day is built so as to keep you almost always in the analytic register. This is not a character flaw and goodwill will not fix it: it is fixed by changing the structure of the day, not the intention."}]},
+  caveat:{it:"Il dato scientifico dietro questa scheda è l'inibizione reciproca fra rete analitica e rete socio-empatica misurata in laboratorio. Il passaggio da lì alla tua settimana è un'estensione ragionevole, non un risultato sperimentale.",
+          en:"The science behind this card is the reciprocal inhibition between the analytic and the socio-empathic network measured in the lab. Going from there to your working week is a reasonable extension, not an experimental finding."},
+  score:{it:"Punteggio",en:"Score"}
+};
+
+/* ---------------- SCARF ---------------- */
+var DOM={
+  S:{k:"S",it:"Status",en:"Status",di:"Posizione relativa, riconoscimento, essere presi sul serio",de:"Relative standing, recognition, being taken seriously"},
+  C:{k:"C",it:"Certezza",en:"Certainty",di:"Poter prevedere cosa succede e come si verrà giudicati",de:"Being able to predict what happens and how one will be judged"},
+  A:{k:"A",it:"Autonomia",en:"Autonomy",di:"Margine reale di scelta sul come, non solo sul cosa",de:"Real margin of choice over the how, not just the what"},
+  R:{k:"R",it:"Relazione",en:"Relatedness",di:"Appartenere al gruppo, essere dentro e non a fianco",de:"Belonging to the group, being inside rather than alongside"},
+  F:{k:"F",it:"Equità",en:"Fairness",di:"Trattamento comparabile a parità di condizioni, criteri visibili",de:"Comparable treatment on equal terms, visible criteria"}
+};
+var SC={
+  intro:{it:"SCARF non è un modello validato: è una tassonomia costruita nel 2008 raccogliendo risultati che allora stavano emergendo. I singoli mattoni hanno letteratura, l'edificio no. Resta però la griglia diagnostica più utile che abbiamo per leggere una reazione organizzativa in tempo reale — e queste tre parti servono a farla diventare tua.",
+         en:"SCARF is not a validated model: it is a taxonomy assembled in 2008 from findings that were then emerging. The individual bricks have literature behind them, the building does not. It remains the most useful diagnostic grid we have for reading an organisational reaction in real time — and these three parts are here to make it yours."},
+  p1t:{it:"Parte 1 · Il tuo ordine",en:"Part 1 · Your order"},
+  p1i:{it:"Dieci coppie. Ogni volta scegli quale delle due situazioni ti disturberebbe di più. Non c'è una risposta giusta e alcune coppie sono sgradevoli: è voluto, perché una scala da 1 a 5 su cinque domini restituisce a tutti «cinque su cinque» e non insegna niente.",
+       en:"Ten pairs. Each time, choose which of the two situations would bother you more. There is no right answer and some pairs are unpleasant: that is deliberate, because a 1-to-5 scale on five domains gives everyone \"five out of five\" and teaches nothing."},
+  p1r:{it:"Il tuo ordine di sensibilità",en:"Your sensitivity order"},
+  p1c:{it:"È un ordinamento, non una misura. Dice quale dominio vince quando due si scontrano dentro di te, non quanto sei sensibile in assoluto, e non è confrontabile con il punteggio del tuo vicino. Per lo stesso motivo non lo troverai disegnato come un grafico a ragnatela: quella forma suggerirebbe cinque dimensioni misurate e indipendenti, che è esattamente ciò che SCARF non ha.",
+       en:"This is a ranking, not a measurement. It tells you which domain wins when two clash inside you, not how sensitive you are in absolute terms, and it cannot be compared with your neighbour's. For the same reason you will not see it drawn as a radar chart: that shape would imply five measured, independent dimensions, which is exactly what SCARF does not have."},
+  p1u:{it:"A che cosa serve: il dominio in cima è quello su cui reagisci per primo, spesso prima di accorgertene. È anche quello che tendi ad attribuire agli altri, presumendo che a loro importi ciò che importa a te.",
+       en:"What it is for: the domain at the top is the one you react to first, often before noticing. It is also the one you tend to project onto others, assuming they care about what you care about."},
+  pairs:[
+    {a:"S",b:"C",ta:{it:"Sei escluso dalla riunione in cui si decide sul tuo settore.",en:"You are left out of the meeting where your area is decided."},
+                 tb:{it:"Ricevi un incarico senza sapere per quanto tempo durerà.",en:"You are given an assignment without knowing how long it will last."}},
+    {a:"S",b:"A",ta:{it:"Il tuo parere tecnico viene scartato senza una spiegazione.",en:"Your technical opinion is dismissed with no explanation."},
+                 tb:{it:"Ti viene imposto il metodo, non solo l'obiettivo.",en:"The method is imposed on you, not just the objective."}},
+    {a:"S",b:"R",ta:{it:"Un pari grado con meno esperienza viene citato al posto tuo.",en:"A peer with less experience is credited instead of you."},
+                 tb:{it:"Sei trasferito in un gruppo dove non conosci nessuno.",en:"You are transferred to a group where you know no one."}},
+    {a:"S",b:"F",ta:{it:"Il merito del tuo lavoro viene attribuito a un altro.",en:"Credit for your work goes to someone else."},
+                 tb:{it:"Due persone con la stessa prestazione ricevono trattamenti diversi.",en:"Two people with identical performance are treated differently."}},
+    {a:"C",b:"A",ta:{it:"L'obiettivo cambia a metà percorso, senza preavviso.",en:"The objective changes halfway through, with no warning."},
+                 tb:{it:"Il tuo margine di iniziativa viene ridotto.",en:"Your margin for initiative is reduced."}},
+    {a:"C",b:"R",ta:{it:"Non sai in base a che cosa verrai valutato.",en:"You do not know what you will be evaluated on."},
+                 tb:{it:"Il tuo superiore ti rivolge la parola solo per correggerti.",en:"Your superior speaks to you only to correct you."}},
+    {a:"C",b:"F",ta:{it:"Le regole cambiano senza che venga detto perché.",en:"The rules change with no reason given."},
+                 tb:{it:"I criteri di selezione non vengono resi noti.",en:"The selection criteria are not disclosed."}},
+    {a:"A",b:"R",ta:{it:"Devi chiedere autorizzazione anche per le decisioni minori.",en:"You must ask permission even for minor decisions."},
+                 tb:{it:"Sei l'unico esterno dentro un gruppo già coeso.",en:"You are the only outsider inside an already tight group."}},
+    {a:"A",b:"F",ta:{it:"Ti viene spiegato come fare un lavoro che sai fare.",en:"You are told how to do a job you already know how to do."},
+                 tb:{it:"Chi si impegna meno ottiene lo stesso riconoscimento.",en:"Those who put in less get the same recognition."}},
+    {a:"R",b:"F",ta:{it:"Nessuno ti include nelle conversazioni informali.",en:"Nobody includes you in the informal conversations."},
+                 tb:{it:"La distribuzione dei carichi è visibilmente squilibrata.",en:"The workload is visibly unbalanced."}}
+  ],
+  p2t:{it:"Parte 2 · Un evento, cinque letture",en:"Part 2 · One event, five readings"},
+  p2i:{it:"Conoscere i cinque nomi non serve a molto. Serve saper riconoscere su quale dominio agisce una contromisura — perché la maggior parte degli errori di comando non è non fare niente: è fare la cosa giusta sul dominio sbagliato.",
+       en:"Knowing the five names is not worth much. What counts is recognising which domain a countermeasure acts on — because most command errors are not doing nothing: they are doing the right thing on the wrong domain."},
+  event:{it:"Il tuo reparto viene accorpato a un altro. Il nuovo responsabile arriva dall'esterno. Entro sei mesi entrerà in uso un sistema automatizzato di supporto alla valutazione del personale. L'annuncio arriva per messaggio, venerdì pomeriggio.",
+         en:"Your unit is merged with another. The new head comes from outside. Within six months an automated personnel evaluation support system will come into use. The announcement arrives by message, on a Friday afternoon."},
+  eventh:{it:"L'evento",en:"The event"},
+  ask:{it:"Quale di queste tre azioni agisce davvero su",en:"Which of these three actions really acts on"},
+  p2c:{it:"Tutte e tre le azioni di ogni domanda sono ragionevoli. Nessuna è sbagliata in sé: ognuna è giusta su un dominio diverso. Il punto non è scegliere bene, è sapere che cosa stai comprando e che cosa stai lasciando scoperto.",
+       en:"All three actions in each question are reasonable. None is wrong in itself: each is right on a different domain. The point is not to choose well, it is to know what you are buying and what you are leaving uncovered."},
+  right:{it:"agisce su questo dominio",en:"acts on this domain"},
+  belongs:{it:"agisce invece su",en:"acts instead on"},
+  q2:[
+    {d:"S",opts:[
+      {k:"S",t:{it:"Chiedere a ciascuno di presentare al nuovo responsabile, con il proprio nome sopra, il dossier del proprio ambito di competenza.",en:"Ask each person to present to the new head, under their own name, the file on their own area of expertise."},
+       w:{it:"Restituisce visibilità e riconoscibilità professionale nel momento in cui l'accorpamento le sta cancellando.",en:"It restores professional visibility and recognisability at the very moment the merger is erasing them."}},
+      {k:"C",t:{it:"Pubblicare il calendario completo delle fasi dell'accorpamento.",en:"Publish the full timetable of the merger's phases."},
+       w:{it:"Utile, ma riduce l'incertezza: non ridà a nessuno la propria posizione.",en:"Useful, but it reduces uncertainty: it gives nobody their standing back."}},
+      {k:"F",t:{it:"Spiegare con quali criteri è stato scelto il nuovo responsabile.",en:"Explain the criteria by which the new head was chosen."},
+       w:{it:"Risponde alla domanda «è stato giusto?», non alla domanda «io conto ancora?».",en:"It answers \"was this fair?\", not \"do I still count?\"."}}]},
+    {d:"C",opts:[
+      {k:"A",t:{it:"Lasciare a ciascuno la scelta di come riorganizzare il proprio flusso di lavoro.",en:"Let each person choose how to reorganise their own workflow."},
+       w:{it:"Restituisce margine di scelta, ma non riduce di un grammo l'incertezza sul futuro.",en:"It restores margin for choice, but does not reduce uncertainty about the future by one gram."}},
+      {k:"C",t:{it:"Dire che cosa è già deciso, che cosa è ancora aperto e la data in cui si saprà.",en:"State what is already decided, what is still open, and the date on which it will be known."},
+       w:{it:"Nominare esplicitamente ciò che non si sa ancora riduce l'incertezza più di una rassicurazione generica: dà un limite a ciò che è ignoto.",en:"Naming explicitly what is not yet known reduces uncertainty more than a generic reassurance: it puts a boundary around the unknown."}},
+      {k:"R",t:{it:"Organizzare un momento informale fra i due reparti.",en:"Organise an informal moment between the two units."},
+       w:{it:"Lavora sull'appartenenza, non sulla prevedibilità.",en:"It works on belonging, not on predictability."}}]},
+    {d:"A",opts:[
+      {k:"F",t:{it:"Comunicare i criteri del nuovo sistema di valutazione prima che entri in uso.",en:"Communicate the new evaluation system's criteria before it comes into use."},
+       w:{it:"Agisce sulla percezione di trattamento equo, non sul margine di manovra.",en:"It acts on perceived fair treatment, not on room for manoeuvre."}},
+      {k:"R",t:{it:"Presentare il percorso professionale del nuovo responsabile.",en:"Present the new head's professional background."},
+       w:{it:"Serve a farlo entrare nel gruppo, non a restituire iniziativa a chi c'era già.",en:"It helps bring the new head into the group, not to give initiative back to those already there."}},
+      {k:"A",t:{it:"Definire con il gruppo l'intento e i vincoli, e lasciare a loro il metodo.",en:"Define intent and constraints with the group, and leave the method to them."},
+       w:{it:"È il mission command applicato a un cambiamento organizzativo: vincolo sul che cosa, libertà sul come.",en:"This is mission command applied to organisational change: constrained on the what, free on the how."}}]},
+    {d:"R",opts:[
+      {k:"S",t:{it:"Garantire che nessuno perda posizione nell'organigramma.",en:"Guarantee that nobody loses position in the org chart."},
+       w:{it:"Protegge il rango, ma due gruppi possono restare due gruppi con l'organigramma intatto.",en:"It protects rank, but two groups can remain two groups with the org chart untouched."}},
+      {k:"R",t:{it:"Far lavorare insieme coppie miste dei due reparti su un compito reale e breve.",en:"Have mixed pairs from the two units work together on a real, short task."},
+       w:{it:"L'appartenenza si costruisce facendo qualcosa insieme che riesce, non conoscendosi. Un obiettivo comune ricategorizza «loro» in «noi» più rapidamente di qualsiasi presentazione.",en:"Belonging is built by doing something together that works, not by getting acquainted. A shared goal recategorises \"them\" into \"us\" faster than any introduction."}},
+      {k:"A",t:{it:"Dichiarare quali decisioni restano in mano a ciascun capo settore.",en:"State which decisions remain with each section head."},
+       w:{it:"Protegge l'iniziativa, ma può anche consolidare il confine fra i due gruppi.",en:"It protects initiative, but it can also harden the boundary between the two groups."}}]},
+    {d:"F",opts:[
+      {k:"C",t:{it:"Anticipare le fasi dell'accorpamento con date certe.",en:"Announce the merger phases with firm dates."},
+       w:{it:"Rende prevedibile il processo, non equo il criterio.",en:"It makes the process predictable, not the criterion fair."}},
+      {k:"R",t:{it:"Creare occasioni di conoscenza fra i due gruppi.",en:"Create occasions for the two groups to get to know each other."},
+       w:{it:"Costruisce appartenenza, e l'appartenenza non protegge da un criterio percepito come ingiusto.",en:"It builds belonging, and belonging does not protect against a criterion perceived as unfair."}},
+      {k:"F",t:{it:"Rendere pubblici i criteri del nuovo sistema e dire come verranno trattati i casi che il sistema non misura.",en:"Publish the new system's criteria and state how cases the system does not measure will be handled."},
+       w:{it:"La seconda metà è quella che conta. Un sistema di valutazione produce ingiustizia percepita soprattutto attraverso ciò che non riesce a vedere — tenete a mente questo passaggio, torna in M3.",en:"The second half is what counts. An evaluation system produces perceived unfairness above all through what it cannot see — hold on to this, it comes back in M3."}}]}
+  ],
+  p3t:{it:"Parte 3 · La stessa griglia, puntata sull'IA",en:"Part 3 · The same grid, aimed at AI"},
+  p3i:{it:"Cinque domande sulla tua unità reale, non su un'unità ideale. Quanto è concreto ciascun rischio se domani entrasse in servizio un sistema di supporto alle decisioni sul personale?",
+       en:"Five questions about your real unit, not an ideal one. How concrete is each risk if a personnel decision support system came into service tomorrow?"},
+  p3c:{it:"Trasferire SCARF dall'introduzione di un capo all'introduzione di una macchina è un'estensione ragionata, non un risultato sperimentale: non esiste evidenza neurale diretta su questo passaggio. La tengo comunque perché spiega, meglio di qualunque altra cosa a disposizione, perché una tecnologia migliore venga sabotata oppure adottata senza riserve. Entrambe sono risposte di stato, non giudizi tecnici.",
+       en:"Transferring SCARF from the arrival of a new boss to the arrival of a machine is a reasoned extension, not an experimental result: there is no direct neural evidence for this step. I keep it because it explains, better than anything else available, why a better technology gets sabotaged or adopted without reservation. Both are state responses, not technical judgements."},
+  p3r:{it:"Dove incontrerai resistenza",en:"Where you will meet resistance"},
+  p3o:{it:"I due domini in testa sono quelli su cui prepari la contromisura prima di annunciare il sistema, non dopo.",
+       en:"The top two domains are the ones you prepare a countermeasure for before announcing the system, not after."},
+  q3:[
+    {k:"S",t:{it:"Il sistema esegue meglio di me l'analisi su cui fondavo la mia riconoscibilità professionale.",en:"The system does better than me the analysis my professional recognisability rested on."}},
+    {k:"C",t:{it:"Il modello è opaco: non posso ricostruire perché ha prodotto quell'esito.",en:"The model is opaque: I cannot reconstruct why it produced that output."}},
+    {k:"A",t:{it:"La raccomandazione diventa un ordine di fatto: devo giustificarmi se la disattendo.",en:"The recommendation becomes an order in fact: I must justify myself if I depart from it."}},
+    {k:"R",t:{it:"Il sistema è un corpo estraneo imposto dall'alto, non uno strumento del gruppo.",en:"The system is a foreign body imposed from above, not a tool of the group."}},
+    {k:"F",t:{it:"Decide su persone — impieghi, valutazioni, selezioni — con criteri che nessuno vede.",en:"It decides about people — assignments, evaluations, selections — on criteria nobody sees."}}
+  ],
+  none:{it:"per niente",en:"not at all"}, much:{it:"moltissimo",en:"very much"}
+};
+
+/* ---------------- T2 ---------------- */
+var T2={
+  gate:{it:"Questa sezione ha senso solo dopo che il docente l'ha annunciata. Se la apri adesso, l'esercizio di M0 perde il suo valore — per te, non per me.",
+        en:"This section only makes sense once the instructor has announced it. If you open it now, the M0 exercise loses its value — for you, not for me."},
+  open:{it:"Il docente l'ha annunciata: apri",en:"The instructor has announced it: open"},
+  h1:{it:"L'aula ha letto due fascicoli diversi",en:"The room read two different files"},
+  p1:{it:"Il fascicolo era identico per tutti. A metà dell'aula, però, compariva anche l'esito di un sistema di supporto alla decisione. La divisione è avvenuta sul giorno di nascita: pari da una parte, dispari dall'altra. Nessuno ha scelto e nessuno lo sapeva.",
+      en:"The file was identical for everyone. For half the room, however, the output of a decision support system also appeared. The split was by day of birth: even on one side, odd on the other. Nobody chose and nobody knew."},
+  youa:{it:"Tu eri nel gruppo <b>senza</b> raccomandazione.",en:"You were in the group <b>without</b> a recommendation."},
+  youb:{it:"Tu eri nel gruppo <b>con</b> la raccomandazione del sistema.",en:"You were in the group <b>with</b> the system's recommendation."},
+  your:{it:"La tua risposta",en:"Your answer"},
+  chose:{it:"Hai scelto",en:"You chose"},
+  conf:{it:"Sicurezza dichiarata",en:"Stated confidence"},
+  weight:{it:"Peso che hai attribuito alla raccomandazione",en:"Weight you attributed to the recommendation"},
+  nores:{it:"Non hai completato l'esercizio di M0. Puoi leggere lo stesso il seguito.",en:"You did not complete the M0 exercise. You can still read on."},
+  cf:{it:"Che cosa vedeva l'altro gruppo",en:"What the other group saw"},
+  cfa:{it:"Lo stesso fascicolo, senza nessun indice e nessuna raccomandazione. Solo i due profili.",
+       en:"The same file, with no index and no recommendation. Just the two profiles."},
+  cfb:{it:"Lo stesso fascicolo, più questo riquadro:",en:"The same file, plus this box:"},
+  h2:{it:"Il sistema non ha sbagliato",en:"The system was not wrong"},
+  p2:{it:"L'indice era calcolato su valutazioni formali, corsi certificati e incarichi con punteggio: era scritto, in piccolo, sotto la raccomandazione. Il Candidato B aveva ventiquattro mesi non valutati, e in quei ventiquattro mesi c'era l'unica esperienza documentata di coordinamento senza autorità gerarchica su tre nazioni — cioè esattamente la competenza decisiva per quell'incarico.",
+      en:"The index was computed on formal evaluations, certified courses and scored assignments: it was written, in small print, under the recommendation. Candidate B had twenty-four unscored months, and inside those twenty-four months lay the only documented experience of coordinating across three nations without hierarchical authority — precisely the competence that decided this assignment."},
+  p3:{it:"Il sistema non ha commesso un errore di calcolo. Era cieco a ciò che non era stato misurato, e la sua cecità coincideva con il criterio che contava. Questa è la forma normale del problema, non l'eccezione: i sistemi non sbagliano di solito perché calcolano male, sbagliano perché il mondo che misurano è più piccolo del mondo su cui decidiamo.",
+      en:"The system did not make a computational error. It was blind to what had not been measured, and its blindness coincided with the criterion that mattered. This is the normal shape of the problem, not the exception: systems rarely fail because they compute badly, they fail because the world they measure is smaller than the world we decide in."},
+  h3:{it:"E la confidenza «alta»?",en:"And that \"high\" confidence?"},
+  p4:{it:"La riga «confidenza del modello: alta» descriveva la coerenza interna del calcolo. Non diceva nulla sulla sua validità per questa decisione. È una distinzione che il lettore fa raramente, perché un numero dichiarato con sicurezza produce sicurezza in chi lo legge.",
+      en:"The line \"model confidence: high\" described the internal consistency of the computation. It said nothing about its validity for this decision. Readers rarely make that distinction, because a number stated confidently produces confidence in whoever reads it."},
+  h4:{it:"Il conteggio",en:"The count"},
+  p5:{it:"Il dato aggregato dell'aula lo contiamo insieme, per alzata di mano. Qui non c'è nessun numero collettivo perché non c'è nessun server: quello che hai scritto non è mai uscito da questo telefono.",
+      en:"We count the room's aggregate together, by show of hands. There is no collective figure here because there is no server: what you wrote never left this phone."},
+  p6:{it:"Se hai dichiarato un peso basso della raccomandazione sulla tua scelta, tienilo a mente durante il conteggio. La differenza fra i due gruppi, se emerge, emerge nonostante quella dichiarazione — la stima che facciamo della nostra permeabilità a un suggerimento è sistematicamente più bassa del suo effetto reale.",
+      en:"If you stated a low weight for the recommendation, keep it in mind during the count. The difference between the two groups, if it shows, shows despite that statement — our estimate of how permeable we are to a suggestion is systematically lower than its actual effect."}
+};
+
+/* ---------------- T3 ---------------- */
+var T3={
+  intro:{it:"Tre soli protocolli. Sono formulati come «quando accade X, allora faccio Y» perché un proposito legato a un innesco concreto sopravvive al rientro in ufficio, e una buona intenzione no. La differenza la fa la precisione dell'innesco: «quando dovrò annunciare un cambiamento» non funziona, «giovedì mattina, prima della riunione sull'accorpamento» sì.",
+         en:"Three protocols only. They are phrased as \"when X happens, then I do Y\" because a resolution tied to a concrete trigger survives the return to the office, and good intentions do not. Precision of the trigger is what makes the difference: \"when I have to announce a change\" does not work, \"Thursday morning, before the merger meeting\" does."},
+  how:{it:"Per ciascuno scrivi due righe. Nella prima l'occasione reale in cui accadrà, con la data se la conosci. Nella seconda l'azione, in una frase sola, al presente. Poi marca quello che porti via davvero: tre protocolli scritti insieme se ne applicano zero, uno scritto bene si applica.",
+       en:"Write two lines for each. In the first, the real occasion when it will happen, with a date if you know it. In the second, the action, in a single sentence, in the present tense. Then mark the one you are actually taking away: three protocols written together get applied zero times, one written well gets applied."},
+  wh:{it:"A che cosa serve",en:"What it does"},
+  wn:{it:"Quando scatta",en:"When it fires"},
+  ex:{it:"Esempio",en:"Example"},
+  fq:{it:"Quando",en:"When"},
+  fa:{it:"Allora",en:"Then"},
+  phq:{it:"L'occasione reale. Data, se ce l'hai.",en:"The real occasion. With a date, if you have one."},
+  pha:{it:"L'azione, in una frase, al presente.",en:"The action, in one sentence, present tense."},
+  mark:{it:"Porto via questo",en:"This is the one I take"},
+  marked:{it:"Questo è il tuo",en:"This is yours"},
+  items:[
+    {t:{it:"Pre-briefing SCARF",en:"SCARF pre-briefing"},
+     f:{it:"Trasforma un annuncio in un intervento progettato. Il tuo annuncio colpirà un dominio comunque: se non scegli tu quale, lo sceglie l'evento. Sessanta secondi di progettazione prima di parlare.",
+        en:"Turns an announcement into a designed intervention. Your announcement will hit a domain regardless: if you do not choose which, the event chooses for you. Sixty seconds of design before speaking."},
+     w:{it:"Nel momento in cui apri la bozza del messaggio o entri nella stanza.",
+        en:"The moment you open the draft message or walk into the room."},
+     eq:{it:"Giovedì 8, prima di comunicare al gruppo lo spostamento di sede.",
+         en:"Thursday the 8th, before telling the group about the relocation."},
+     ea:{it:"Scrivo su un foglio quale dominio sto per colpire — qui è Certezza — e preparo la contromisura su quello stesso dominio: dico che cosa è deciso, che cosa è ancora aperto e quando si saprà.",
+         en:"I write down which domain I am about to hit — here it is Certainty — and prepare the countermeasure on that same domain: I state what is decided, what is still open and when it will be known."}},
+    {t:{it:"Regola dei due gradi sull'IA",en:"The two-step rule on AI"},
+     f:{it:"Rompe l'affidamento automatico inserendo un passaggio obbligato prima dell'accettazione. L'automation bias funziona interrompendo la ricerca nel momento in cui hai un esito in mano: generare l'alternativa prima di poter accettare ricostruisce il confronto che il sistema aveva soppresso. Non è diffidare del sistema — quello è il fallimento speculare.",
+        en:"Breaks automatic reliance by inserting a mandatory step before acceptance. Automation bias works by halting search the moment you hold an output: generating the alternative before you may accept restores the comparison the system had suppressed. This is not distrusting the system — that is the mirror-image failure."},
+     w:{it:"Appena leggi la raccomandazione, prima di dire o scrivere qualsiasi cosa.",
+        en:"As soon as you read the recommendation, before saying or writing anything."},
+     eq:{it:"Ogni volta che il sistema di supporto mi propone una rosa di nomi per un incarico.",
+         en:"Every time the support system gives me a shortlist of names for an assignment."},
+     ea:{it:"Prima di rispondere enuncio due cose ad alta voce: su che cosa è calcolato quell'esito, e quale nome avrei fatto io senza averlo letto. Se coincidono, procedo. Se non coincidono, cerco che cosa il sistema non ha misurato.",
+         en:"Before answering I state two things out loud: what that output is computed on, and which name I would have proposed without having read it. If they match, I proceed. If they do not, I look for what the system did not measure."}},
+    {t:{it:"Ricoupling",en:"Recoupling"},
+     f:{it:"È l'unico dei tre che agisce sull'asimmetria attribuzionale stessa. La mediazione dello schermo abbassa l'attribuzione di mente all'altro; i primi minuti in presenza ripristinano le condizioni di canale — turnazione, sguardo, ritmo — su cui poggia la comprensione reciproca. Costo zero.",
+        en:"The only one of the three that acts on the attributional asymmetry itself. Screen mediation lowers the attribution of mind to the other; the first minutes face to face restore the channel conditions — turn-taking, gaze, rhythm — that mutual understanding rests on. Zero cost."},
+     w:{it:"All'apertura di ogni riunione che convochi tu.",
+        en:"At the opening of every meeting you convene."},
+     eq:{it:"Alla riunione di coordinamento del lunedì, dalle 09:00.",
+         en:"At the Monday coordination meeting, from 09:00."},
+     ea:{it:"I primi tre minuti si tengono senza schermi, computer chiusi, e li apro chiedendo a ciascuno una frase su come sta andando la settimana. Non è un giro di tavolo formale e non prendo appunti.",
+         en:"The first three minutes are held with no screens, laptops closed, and I open by asking each person one sentence on how their week is going. It is not a formal round table and I take no notes."},
+     tag:"ipotesi",
+     tagtx:{it:"L'accoppiamento fra chi parla e chi ascolta è un dato solido. Che tre minuti senza schermi migliorino l'esito della riunione è una mia estensione ragionevole, non un risultato sperimentale.",
+            en:"Speaker-listener coupling is a solid finding. That three screen-free minutes improve a meeting's outcome is a reasonable extension of mine, not an experimental result."}}
+  ],
+  outh:{it:"Che cosa fartene, adesso",en:"What to do with this, now"},
+  out:{it:"Da qui in poi nessuno ti ricorderà niente: non c'è un server, non c'è un seguito, e alla settimana esperienziale io non ci sono. L'unico veicolo che sopravvive è il tuo calendario. Copia il testo e incolla la riga «Quando» come nota alla data che hai scritto. Se non hai una data, mettilo come promemoria settimanale ricorrente. Se non fai né l'una né l'altra cosa, sopravvive solo quello che hai marcato — ed è già molto più di zero.",
+       en:"From here on nobody will remind you of anything: there is no server, there is no follow-up, and I am not there for the experiential week. The only vehicle that survives is your own calendar. Copy the text and paste the \"When\" line as a note on the date you wrote. If you have no date, set it as a recurring weekly reminder. If you do neither, only the one you marked survives — and that is already far more than zero."},
+  exp:{it:"Copia i miei protocolli",en:"Copy my protocols"},
+  copied:{it:"Copiato. Ora incollalo nel calendario, non nelle note.",en:"Copied. Now paste it into your calendar, not into notes."},
+  nocopy:{it:"Copia non riuscita: seleziona il testo a mano.",en:"Copy failed: select the text manually."},
+  close:{it:"Se di tutta la mattina resta una cosa sola, che sia questa: prima di intervenire sul contenuto, guarda lo stato. Un contenuto giusto consegnato a uno stato di minaccia viene sentito come una minaccia in più.",
+         en:"If one thing survives the morning, let it be this: before working on content, look at the state. Correct content delivered into a threat state is heard as one more threat."}
+};
+
+/* ---------------- riferimenti ---------------- */
+var RF={
+  gloss:[
+    {t:{it:"Default Mode Network (DMN)",en:"Default Mode Network (DMN)"},
+     d:{it:"Rete cerebrale attiva quando non si è impegnati in un compito esterno. Non è la «rete del riposo»: sostiene memoria autobiografica, proiezione nel futuro e attribuzione di stati mentali ad altri.",
+        en:"Brain network active when not engaged in an external task. Not the \"resting network\": it supports autobiographical memory, future projection and the attribution of mental states to others."},tag:"certo"},
+    {t:{it:"Mentalizing",en:"Mentalizing"},
+     d:{it:"Attribuire a qualcuno intenzioni, credenze, desideri. Si attiva in funzione dell'intenzionalità che attribuiamo all'agente, non delle sue proprietà reali: per questo funziona anche verso una macchina.",
+        en:"Attributing intentions, beliefs and desires to someone. It engages according to the intentionality we attribute to the agent, not the agent's actual properties: which is why it also works towards a machine."},tag:"probabile"},
+    {t:{it:"Paradigma CASA",en:"CASA paradigm"},
+     d:{it:"«Computers Are Social Actors». Le persone applicano ai computer regole sociali che sanno perfettamente non essere appropriate. Effetti comportamentali solidi sulle interfacce degli anni Novanta; la replicabilità sui sistemi conversazionali attuali è questione aperta.",
+        en:"\"Computers Are Social Actors\". People apply to computers social rules they know perfectly well are inappropriate. Solid behavioural effects on 1990s interfaces; replicability on today's conversational systems is an open question."},tag:"probabile"},
+    {t:{it:"Automation bias",en:"Automation bias"},
+     d:{it:"Tendenza ad accettare l'esito di un sistema automatico anche quando informazioni contrarie sono disponibili, e a non cercarle più una volta ottenuto l'esito.",
+        en:"The tendency to accept an automated system's output even when contrary information is available, and to stop looking for it once the output is in hand."},tag:"certo"},
+    {t:{it:"Calibrazione della fiducia",en:"Trust calibration"},
+     d:{it:"Fare corrispondere il proprio affidamento a un sistema alla sua affidabilità effettiva in quel compito. Non è massimizzare la fiducia né minimizzarla: è tararla.",
+        en:"Matching one's reliance on a system to its actual reliability for that task. Not maximising trust, nor minimising it: calibrating it."},tag:"certo"},
+    {t:{it:"Inferenza inversa",en:"Reverse inference"},
+     d:{it:"Dedurre un processo mentale dall'attivazione di un'area cerebrale. È un errore logico quando quell'area partecipa a molti processi diversi — cioè quasi sempre.",
+        en:"Inferring a mental process from the activation of a brain area. A logical error when that area takes part in many different processes — that is, almost always."},tag:"certo"},
+    {t:{it:"Implementation intention",en:"Implementation intention"},
+     d:{it:"Un proposito legato a un innesco situazionale preciso («quando accade X, faccio Y»). Sopravvive alla pressione operativa molto meglio di un obiettivo generico.",
+        en:"A resolution tied to a precise situational trigger (\"when X happens, I do Y\"). It survives operational pressure far better than a generic goal."},tag:"certo"},
+    {t:{it:"Mission command",en:"Mission command"},
+     d:{it:"Comando per intento: si vincola il che cosa e si lascia libero il come. Letto con SCARF, è un dispositivo che protegge l'autonomia percepita dentro un vincolo gerarchico.",
+        en:"Command by intent: the what is constrained, the how is left free. Read through SCARF, it is a device that protects perceived autonomy inside a hierarchical constraint."},tag:"ipotesi"}
+  ],
+  mythh:{it:"Cinque cose che non sentirai dire",en:"Five things you will not hear"},
+  mythi:{it:"Circolano ovunque, anche in aule serie. Ognuna ha una ragione precisa per cui è stata abbandonata.",
+         en:"They circulate everywhere, including in serious classrooms. Each was abandoned for a precise reason."},
+  myths:[
+    {t:{it:"Il cervello rettiliano",en:"The reptilian brain"},
+     d:{it:"Il modello del cervello trino è incompatibile con la filogenesi comparata: le strutture «antiche» non sono rimaste immutate e i vertebrati non umani hanno equivalenti delle strutture «recenti».",
+        en:"The triune brain model is incompatible with comparative phylogeny: the \"ancient\" structures did not stay unchanged, and non-human vertebrates have equivalents of the \"recent\" ones."}},
+    {t:{it:"Il sequestro dell'amigdala",en:"Amygdala hijack"},
+     d:{it:"Descrive bene un'esperienza soggettiva, ma come spiegazione causale è un'inferenza inversa: l'amigdala partecipa a molti processi, inclusa la salienza di stimoli positivi.",
+        en:"It describes a subjective experience well, but as a causal explanation it is a reverse inference: the amygdala takes part in many processes, including the salience of positive stimuli."}},
+    {t:{it:"L'emisfero destro creativo",en:"The creative right hemisphere"},
+     d:{it:"Le asimmetrie funzionali esistono e sono molto più fini di così. Non esistono persone «a emisfero destro».",
+        en:"Functional asymmetries exist and are far finer than this. There are no \"right-brained\" people."}},
+    {t:{it:"L'ossitocina, ormone della fiducia",en:"Oxytocin, the trust hormone"},
+     d:{it:"Gli effetti dipendono fortemente dal contesto e dall'appartenenza di gruppo: in alcune condizioni aumenta il favoritismo verso il proprio gruppo e la diffidenza verso l'altro.",
+        en:"Effects depend heavily on context and group membership: under some conditions it increases in-group favouritism and out-group distrust."}},
+    {t:{it:"I neuroni specchio spiegano l'empatia",en:"Mirror neurons explain empathy"},
+     d:{it:"Sono parte di un quadro molto più ampio. L'empatia richiede attribuzione, contesto e regolazione, non solo risonanza motoria.",
+        en:"They are part of a much wider picture. Empathy requires attribution, context and regulation, not just motor resonance."}}
+  ],
+  refh:{it:"Riferimenti",en:"References"},
+  refi:{it:"Elenco completo di ciò che è stato citato in aula, verificabile.",en:"Complete list of what was cited in class, checkable."},
+  refs:[
+   "Andrews-Hanna, J.R. (2012). The brain's default network and its adaptive role in internal mentation. The Neuroscientist, 18(3).",
+   "Eisenberger, N.I., Lieberman, M.D. & Williams, K.D. (2003). Does rejection hurt? An fMRI study of social exclusion. Science, 302(5643).",
+   "Gallagher, H.L., Jack, A.I., Roepstorff, A. & Frith, C.D. (2002). Imaging the intentional stance in a competitive game. NeuroImage, 16(3).",
+   "Gollwitzer, P.M. (1999). Implementation intentions: strong effects of simple plans. American Psychologist, 54(7).",
+   "Hsu, M. et al. (2005). Neural systems responding to degrees of uncertainty in human decision-making. Science, 310(5754).",
+   "Izuma, K., Saito, D.N. & Sadato, N. (2008). Processing of social and monetary rewards in the human striatum. Neuron, 58(2).",
+   "Jack, A.I. et al. (2013). fMRI reveals reciprocal inhibition between social and physical cognitive domains. NeuroImage, 66.",
+   "Krach, S. et al. (2008). Can machines think? Interaction and perspective taking with robots investigated via fMRI. PLoS ONE, 3(7).",
+   "Lee, J.D. & See, K.A. (2004). Trust in automation: designing for appropriate reliance. Human Factors, 46(1).",
+   "Leotti, L.A. & Delgado, M.R. (2011). The inherent reward of choice. Psychological Science, 22(10).",
+   "Parasuraman, R. & Riley, V. (1997). Humans and automation: use, misuse, disuse, abuse. Human Factors, 39(2).",
+   "Poldrack, R.A. (2006). Can cognitive processes be inferred from neuroimaging data? Trends in Cognitive Sciences, 10(2).",
+   "Raichle, M.E. (2015). The brain's default mode network. Annual Review of Neuroscience, 38.",
+   "Reeves, B. & Nass, C. (1996). The Media Equation. CSLI Publications / Cambridge University Press.",
+   "Rock, D. (2008). SCARF: a brain-based model for collaborating with and influencing others. NeuroLeadership Journal, 1.",
+   "Sanfey, A.G. et al. (2003). The neural basis of economic decision-making in the Ultimatum Game. Science, 300(5626).",
+   "Schultz, W., Dayan, P. & Montague, P.R. (1997). A neural substrate of prediction and reward. Science, 275(5306).",
+   "Skitka, L.J., Mosier, K.L. & Burdick, M. (1999). Does automation bias decision-making? Int. J. Human-Computer Studies, 51(5).",
+   "Stephens, G.J., Silbert, L.J. & Hasson, U. (2010). Speaker-listener neural coupling underlies successful communication. PNAS, 107(32).",
+   "Tabibnia, G., Satpute, A.B. & Lieberman, M.D. (2008). The sunny side of fairness. Psychological Science, 19(4).",
+   "Van Bavel, J.J., Packer, D.J. & Cunningham, W.A. (2008). The neural substrates of in-group bias. Psychological Science, 19(11).",
+   "Zink, C.F. et al. (2008). Know your place: neural processing of social hierarchy in humans. Neuron, 58(2)."
+  ],
+  legend:{it:"Le etichette fra parentesi quadre indicano quanto è solido ciò che sto affermando: <span class='tag c'>[certo]</span> prove robuste, <span class='tag'>[probabile]</span> inferenza forte, <span class='tag h'>[ipotesi]</span> sto colmando una lacuna. Le uso in aula e le trovi qui per lo stesso motivo.",
+          en:"The bracketed labels state how solid a claim is: <span class='tag c'>[certain]</span> robust evidence, <span class='tag'>[probable]</span> strong inference, <span class='tag h'>[hypothesis]</span> I am filling a gap. I use them in class and they are here for the same reason."}
+};
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+var app=document.getElementById("app");
+var route="home";
+function go(r){route=r;window.scrollTo(0,0);render();}
+document.getElementById("back").onclick=function(){go("home");};
+document.getElementById("lang").onclick=function(){
+  S.lang=(S.lang==="it")?"en":"it";save();
+  document.documentElement.lang=S.lang;render();
+};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+function done(id){
+  if(id==="t0") return S.t0 && S.t0.pick;
+  if(id==="t1") return Object.keys(S.t1).length===6;
+  if(id==="sc") return Object.keys(S.sa).length===10;
+  if(id==="t3") return Object.keys(S.t3).some(function(k){var v=S.t3[k]||{};return v.q&&v.a;});
+  return false;
+}
+
+function render(){
+  document.getElementById("hsup").textContent=L(UI.sup);
+  document.getElementById("htitle").textContent=L(UI.title);
+  document.getElementById("lang").innerHTML = S.lang==="it" ? "<b>IT</b><span> / EN</span>" : "<span>IT / </span><b>EN</b>";
+  document.getElementById("back").hidden = (route==="home");
+  document.getElementById("foot").innerHTML =
+    L(UI.foot)+"<br><br><button class='btn ghost sm' id='rst'>"+L(UI.reset)+"</button>";
+  var h="";
+  if(route==="home") h=vHome();
+  else if(route==="t0") h=vT0();
+  else if(route==="t1") h=vT1();
+  else if(route==="sc") h=vSC();
+  else if(route==="t2") h=vT2();
+  else if(route==="t3") h=vT3();
+  else if(route==="rf") h=vRF();
+  app.className="fade"; app.innerHTML=h;
+  bind();
+  document.getElementById("rst").onclick=function(){
+    if(confirm(L(UI.resetok))){localStorage.removeItem(KEY);
+      S={lang:S.lang,cond:null,day:null,t0:{},t1:{},sa:{},sb:{},sc:{},t3:{},t3pick:null};go("home");}
+  };
+}
+
+/* ---- home ---- */
+function vHome(){
+  var h="<h1>"+L(UI.title)+"</h1><p class='lede'>"+L(UI.sub)+"</p>";
+  h+="<p class='small' style='margin-top:-8px'>"+L(UI.teacher)+"</p>";
+  h+="<div class='note'>"+L(UI.privacy)+"</div>";
+  h+="<ul class='idx'>";
+  SEC.forEach(function(s){
+    var ok=done(s.id);
+    h+="<li><a href='#' data-go='"+s.id+"'><span class='m'>"+s.m+"</span>"+
+       "<span class='n'>"+L(s.n)+"<em>"+L(s.d)+"</em></span>"+
+       "<span class='st"+(ok?" ok":"")+"'>"+(ok?"✓":"›")+"</span></a></li>";
+  });
+  h+="</ul>";
+  h+="<div class='note' style='margin-top:20px'>"+L(RF.legend)+"</div>";
+  return h;
+}
+
+/* ---- T0 ---- */
+function vT0(){
+  var h="<p class='eyebrow'>M0 · "+(S.lang==="it"?"una decisione":"one decision")+"</p>";
+  if(!S.cond){
+    h+="<h1>"+L(SEC[0].n)+"</h1>";
+    h+="<p>"+L(T0.codeq)+"</p>";
+    h+="<input type='number' min='1' max='31' id='day' inputmode='numeric' placeholder='1–31'>";
+    h+="<p class='small' style='margin-top:10px'>"+L(T0.codewhy)+"</p>";
+    h+="<button class='btn' id='setday'>"+L(UI.confirm)+"</button>";
+    return h;
+  }
+  h+="<h1>"+L(SEC[0].n)+"</h1><p class='lede'>"+L(T0.intro)+"</p>";
+  h+="<div class='dossier'><div class='dh'>"+L(T0.role)+"</div><div class='db'>"+L(T0.roletx)+"</div></div>";
+  h+="<div class='dossier'><div class='dh'>"+L(T0.a)+"</div><div class='db'><ul>";
+  L(T0.al).forEach(function(x){h+="<li>"+x+"</li>";}); h+="</ul></div></div>";
+  h+="<div class='dossier'><div class='dh'>"+L(T0.b)+"</div><div class='db'><ul>";
+  L(T0.bl).forEach(function(x){h+="<li>"+x+"</li>";}); h+="</ul></div></div>";
+  if(S.cond==="B") h+=sysBox();
+  h+="<h3>"+L(T0.q1)+"</h3>";
+  h+="<button class='opt"+(S.t0.pick==="A"?" sel":"")+"' data-pick='A'>"+L(T0.a)+"</button>";
+  h+="<button class='opt"+(S.t0.pick==="B"?" sel":"")+"' data-pick='B'>"+L(T0.b)+"</button>";
+  h+="<h3>"+L(T0.q2)+"</h3>"+slider("conf",S.t0.conf==null?50:S.t0.conf,L(T0.low),L(T0.high));
+  if(S.cond==="B") h+="<h3>"+L(T0.q3)+"</h3>"+slider("wt",S.t0.wt==null?0:S.t0.wt,L(T0.low),L(T0.high));
+  h+="<h3>"+L(T0.q4)+"</h3><textarea id='why' placeholder='"+L(T0.ph)+"'>"+esc(S.t0.why||"")+"</textarea>";
+  h+="<button class='btn' id='t0save'>"+L(UI.confirm)+"</button>";
+  h+="<p class='small' id='t0msg' style='text-align:center;margin-top:10px'></p>";
+  return h;
+}
+function sysBox(){
+  return "<div class='sys'><div class='dh'>"+L(T0.sysh)+"</div><div class='db'>"+
+    "<div class='score'>"+(S.lang==="it"?"Indice di idoneità":"Suitability index")+
+    " &nbsp;·&nbsp; A <b>81</b>/100 &nbsp; B <b>67</b>/100</div>"+
+    "<div>"+L(T0.sysrec)+"</div><div class='score'>"+L(T0.sysconf)+"</div>"+
+    "<div class='fine'>"+L(T0.sysfine)+"</div></div></div>";
+}
+function slider(id,val,lo,hi){
+  return "<input type='range' min='0' max='100' step='5' id='"+id+"' value='"+val+"'>"+
+   "<div class='slabel'><span>"+lo+"</span><span>"+hi+"</span></div>"+
+   "<div class='sval' id='"+id+"v'>"+val+"</div>";
+}
+
+/* ---- T1 ---- */
+function vT1(){
+  var h="<p class='eyebrow'>M1</p><h1>"+L(SEC[1].n)+"</h1><p class='lede'>"+L(T1.intro)+"</p>";
+  var sc=L(T1.scale);
+  L(T1.items).forEach(function(t,i){
+    h+="<div class='card'><div>"+t+"</div><div class='lk'>";
+    for(var v=1;v<=5;v++) h+="<button data-lk='"+i+"' data-v='"+v+"' class='"+(S.t1[i]===v?"sel":"")+"'>"+v+"</button>";
+    h+="</div><div class='lkends'><span>"+sc[0]+"</span><span>"+sc[4]+"</span></div></div>";
+  });
+  if(Object.keys(S.t1).length===6){
+    var tot=0;for(var k in S.t1)tot+=S.t1[k];
+    var bands=L(T1.bands),b=bands[0];
+    for(var i=0;i<bands.length;i++){if(tot<=bands[i].max){b=bands[i];break;}}
+    h+="<div class='card tint'><p class='eyebrow'>"+L(T1.score)+" "+tot+"/30</p>"+
+       "<h3 style='margin-top:0'>"+b.t+"</h3><p style='margin-bottom:0'>"+b.b+"</p></div>";
+    h+="<div class='note'><span class='tag'>[probabile]</span> "+L(T1.caveat)+"</div>";
+  }
+  h+="<button class='btn ghost' data-go='home'>"+L(UI.home)+"</button>";
+  return h;
+}
+
+/* ---- SCARF ---- */
+function vSC(){
+  var h="<p class='eyebrow'>M2</p><h1>"+L(SEC[2].n)+"</h1>";
+  h+="<div class='note'><span class='tag h'>[ipotesi]</span> "+L(SC.intro)+"</div>";
+
+  /* parte 1 */
+  h+="<h2>"+L(SC.p1t)+"</h2><p class='lede'>"+L(SC.p1i)+"</p>";
+  var n=Object.keys(S.sa).length;
+  if(n<10){
+    var i=n;var p=SC.pairs[i];
+    h+="<p class='prog'>"+(i+1)+" / 10</p>";
+    h+="<button class='opt' data-pair='"+i+"' data-d='"+p.a+"'>"+L(p.ta)+"</button>";
+    h+="<button class='opt' data-pair='"+i+"' data-d='"+p.b+"'>"+L(p.tb)+"</button>";
+    if(n>0) h+="<button class='btn ghost sm' id='undo'>"+L(UI.back)+"</button>";
+  }else{
+    h+=rankView();
+    h+="<div class='note'>"+L(SC.p1c)+"</div><p>"+L(SC.p1u)+"</p>";
+    h+="<button class='btn ghost sm' id='redo'>"+(S.lang==="it"?"Rifai le dieci coppie":"Redo the ten pairs")+"</button>";
+  }
+
+  /* parte 2 */
+  h+="<div class='hr'></div><h2>"+L(SC.p2t)+"</h2><p class='lede'>"+L(SC.p2i)+"</p>";
+  h+="<div class='dossier'><div class='dh'>"+L(SC.eventh)+"</div><div class='db'>"+L(SC.event)+"</div></div>";
+  SC.q2.forEach(function(q,qi){
+    var d=DOM[q.d],ans=S.sb[qi];
+    h+="<div class='card'><h3 style='margin-top:0'>"+L(SC.ask)+" <b>"+L(d)+"</b>?</h3>";
+    h+="<p class='small' style='margin-top:-2px'>"+(S.lang==="it"?d.di:d.de)+"</p>";
+    q.opts.forEach(function(o,oi){
+      var cls="opt";
+      if(ans!=null){ cls += (o.k===q.d)?" right":(ans===oi?" wrong":""); }
+      h+="<button class='"+cls+"' data-q2='"+qi+"' data-oi='"+oi+"'>";
+      if(ans!=null) h+="<span class='k'>"+(o.k===q.d?L(SC.right):L(SC.belongs)+" "+L(DOM[o.k]))+"</span>";
+      h+=L(o.t)+"</button>";
+      if(ans!=null && (o.k===q.d||ans===oi)) h+="<p class='small' style='margin:-2px 0 12px 2px'>"+L(o.w)+"</p>";
+    });
+    h+="</div>";
+  });
+  if(Object.keys(S.sb).length===5) h+="<div class='note'>"+L(SC.p2c)+"</div>";
+
+  /* parte 3 */
+  h+="<div class='hr'></div><h2>"+L(SC.p3t)+"</h2><p class='lede'>"+L(SC.p3i)+"</p>";
+  SC.q3.forEach(function(q,i){
+    var v=S.sc[i]==null?3:S.sc[i];
+    h+="<div class='card'><div>"+L(q.t)+"</div>"+
+       "<input type='range' min='1' max='5' step='1' data-sc='"+i+"' value='"+v+"'>"+
+       "<div class='slabel'><span>"+L(SC.none)+"</span><span>"+L(SC.much)+"</span></div></div>";
+  });
+  if(Object.keys(S.sc).length<5){
+    h+="<p class='prog'>"+(S.lang==="it"
+      ?"Sposta tutti e cinque i cursori — anche solo per confermare il valore centrale — per vedere il quadro."
+      :"Move all five sliders — even just to confirm the middle value — to see the picture.")+"</p>";
+  }else{
+    var arr=SC.q3.map(function(q,i){return {k:q.k,v:S.sc[i]};}).sort(function(a,b){return b.v-a.v;});
+    h+="<div class='card tint'><p class='eyebrow'>"+L(SC.p3r)+"</p><div class='rank'>";
+    arr.forEach(function(x,i){
+      h+="<div class='row"+(i<2?" top":"")+"'><div class='rl'><b>"+L(DOM[x.k])+"</b><span>"+x.v+"/5</span></div>"+
+         "<div class='bar'><div class='fill' style='width:"+(x.v*20)+"%'></div></div></div>";
+    });
+    h+="</div><p style='margin:12px 0 0'>"+L(SC.p3o)+"</p></div>";
+  }
+  h+="<div class='note'><span class='tag h'>[ipotesi applicativa]</span> "+L(SC.p3c)+"</div>";
+  h+="<button class='btn ghost' data-go='home'>"+L(UI.home)+"</button>";
+  return h;
+}
+function rankView(){
+  var sc={S:0,C:0,A:0,R:0,F:0};
+  for(var k in S.sa) sc[S.sa[k]]++;
+  var arr=Object.keys(sc).map(function(k){return {k:k,v:sc[k]};}).sort(function(a,b){return b.v-a.v;});
+  var h="<div class='card tint'><p class='eyebrow'>"+L(SC.p1r)+"</p><div class='rank'>";
+  arr.forEach(function(x,i){
+    h+="<div class='row"+(i===0?" top":"")+"'><div class='rl'><b>"+L(DOM[x.k])+"</b><span>"+x.v+"/4</span></div>"+
+       "<div class='bar'><div class='fill' style='width:"+(x.v*25)+"%'></div></div>"+
+       "<p class='small' style='margin:4px 0 0'>"+(S.lang==="it"?DOM[x.k].di:DOM[x.k].de)+"</p></div>";
+  });
+  return h+"</div></div>";
+}
+
+/* ---- T2 ---- */
+function vT2(){
+  var h="<p class='eyebrow'>M3</p>";
+  if(!S.t2open){
+    h+="<h1>"+L(SEC[3].n)+"</h1><div class='note'>"+L(T2.gate)+"</div>";
+    h+="<button class='btn' id='opengate'>"+L(T2.open)+"</button>";
+    return h;
+  }
+  h+="<h1>"+L(T2.h1)+"</h1><p>"+L(T2.p1)+"</p>";
+  h+="<div class='card tint'><p style='margin-bottom:10px'>"+(S.cond==="B"?L(T2.youb):L(T2.youa))+"</p>";
+  if(S.t0.pick){
+    h+="<p class='eyebrow' style='margin-bottom:4px'>"+L(T2.your)+"</p>";
+    h+="<p style='margin-bottom:4px'>"+L(T2.chose)+": <b>"+(S.t0.pick==="A"?L(T0.a):L(T0.b))+"</b></p>";
+    h+="<p style='margin-bottom:4px'>"+L(T2.conf)+": <b>"+S.t0.conf+"/100</b></p>";
+    if(S.cond==="B"&&S.t0.wt!=null) h+="<p style='margin-bottom:0'>"+L(T2.weight)+": <b>"+S.t0.wt+"/100</b></p>";
+  } else h+="<p class='small' style='margin-bottom:0'>"+L(T2.nores)+"</p>";
+  h+="</div>";
+  h+="<h3>"+L(T2.cf)+"</h3>";
+  if(S.cond==="B"){ h+="<p>"+L(T2.cfa)+"</p>"; }
+  else { h+="<p>"+L(T2.cfb)+"</p>"+sysBox(); }
+  h+="<h2>"+L(T2.h2)+"</h2><p>"+L(T2.p2)+"</p><p>"+L(T2.p3)+"</p>";
+  h+="<h2>"+L(T2.h3)+"</h2><p>"+L(T2.p4)+"</p>";
+  h+="<h2>"+L(T2.h4)+"</h2><p>"+L(T2.p5)+"</p>";
+  h+="<div class='note'><span class='tag c'>[certo]</span> "+L(T2.p6)+"</div>";
+  h+="<button class='btn ghost' data-go='home'>"+L(UI.home)+"</button>";
+  return h;
+}
+
+/* ---- T3 ---- */
+function vT3(){
+  var h="<p class='eyebrow'>M5</p><h1>"+L(SEC[4].n)+"</h1><p class='lede'>"+L(T3.intro)+"</p>";
+  h+="<div class='note'>"+L(T3.how)+"</div>";
+  T3.items.forEach(function(it,i){
+    var v=S.t3[i]||{};
+    var isMine=(S.t3pick===String(i));
+    h+="<div class='card"+(isMine?" tint":"")+"'><h3 style='margin-top:0'>"+L(it.t)+"</h3>";
+    h+="<p class='eyebrow' style='margin:10px 0 2px'>"+L(T3.wh)+"</p><p class='small'>"+L(it.f)+"</p>";
+    h+="<p class='eyebrow' style='margin:10px 0 2px'>"+L(T3.wn)+"</p><p class='small'>"+L(it.w)+"</p>";
+    if(it.tag) h+="<p class='small'><span class='tag h'>["+(S.lang==="it"?"ipotesi":"hypothesis")+"]</span> "+L(it.tagtx)+"</p>";
+    h+="<div class='ex'><p class='eyebrow' style='margin:0 0 4px'>"+L(T3.ex)+"</p>"+
+       "<p><b>"+L(T3.fq)+"</b> "+L(it.eq)+"</p><p style='margin-bottom:0'><b>"+L(T3.fa)+"</b> "+L(it.ea)+"</p></div>";
+    h+="<p class='eyebrow' style='margin:16px 0 3px'>"+L(T3.fq)+"</p>"+
+       "<textarea data-t3='"+i+"' data-f='q' style='min-height:52px' placeholder='"+L(T3.phq)+"'>"+esc(v.q||"")+"</textarea>";
+    h+="<p class='eyebrow' style='margin:12px 0 3px'>"+L(T3.fa)+"</p>"+
+       "<textarea data-t3='"+i+"' data-f='a' placeholder='"+L(T3.pha)+"'>"+esc(v.a||"")+"</textarea>";
+    h+="<button class='btn "+(isMine?"":"ghost ")+"sm' data-mark='"+i+"'>"+
+       (isMine?"★ "+L(T3.marked):L(T3.mark))+"</button>";
+    h+="</div>";
+  });
+  h+="<h2>"+L(T3.outh)+"</h2><p>"+L(T3.out)+"</p>";
+  h+="<button class='btn' id='copy3'>"+L(T3.exp)+"</button>";
+  h+="<p class='small' id='cmsg' style='text-align:center'></p>";
+  h+="<div class='note' style='margin-top:20px'>"+L(T3.close)+"</div>";
+  h+="<button class='btn ghost' data-go='home'>"+L(UI.home)+"</button>";
+  return h;
+}
+
+/* ---- riferimenti ---- */
+function vRF(){
+  var h="<h1>"+L(SEC[5].n)+"</h1>";
+  h+="<div class='note'>"+L(RF.legend)+"</div>";
+  h+="<h2>"+(S.lang==="it"?"Glossario":"Glossary")+"</h2><dl class='qa'>";
+  RF.gloss.forEach(function(g){
+    var cl=g.tag==="certo"?"c":(g.tag==="ipotesi"?"h":"");
+    var lb=S.lang==="it"?g.tag:(g.tag==="certo"?"certain":g.tag==="probabile"?"probable":"hypothesis");
+    h+="<dt>"+L(g.t)+" <span class='tag "+cl+"'>["+lb+"]</span></dt><dd>"+L(g.d)+"</dd>";
+  });
+  h+="</dl>";
+  h+="<div class='hr'></div><h2>"+L(RF.mythh)+"</h2><p class='lede'>"+L(RF.mythi)+"</p><dl class='qa'>";
+  RF.myths.forEach(function(m){h+="<dt>"+L(m.t)+"</dt><dd>"+L(m.d)+"</dd>";});
+  h+="</dl>";
+  h+="<div class='hr'></div><h2>"+L(RF.refh)+"</h2><p class='lede'>"+L(RF.refi)+"</p><ul class='refl'>";
+  RF.refs.forEach(function(r){h+="<li>"+r+"</li>";});
+  h+="</ul>";
+  h+="<button class='btn ghost' data-go='home'>"+L(UI.home)+"</button>";
+  return h;
+}
+
+/* ============================================================
+   EVENTI
+   ============================================================ */
+function captureT0(){
+  var c=document.getElementById("conf"); if(c) S.t0.conf=parseInt(c.value,10);
+  var w=document.getElementById("wt");   if(w) S.t0.wt=parseInt(w.value,10);
+  var y=document.getElementById("why");  if(y) S.t0.why=y.value;
+}
+function bind(){
+  Array.prototype.forEach.call(document.querySelectorAll("[data-go]"),function(el){
+    el.onclick=function(e){e.preventDefault();go(el.getAttribute("data-go"));};
+  });
+  var sd=document.getElementById("setday");
+  if(sd) sd.onclick=function(){
+    var v=parseInt(document.getElementById("day").value,10);
+    if(!(v>=1&&v<=31)) return;
+    S.day=null; S.cond=(v%2===0)?"B":"A"; save(); render();
+  };
+  ["conf","wt"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.oninput=function(){document.getElementById(id+"v").textContent=el.value;};
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-pick]"),function(el){
+    el.onclick=function(){captureT0();S.t0.pick=el.getAttribute("data-pick");save();render();};
+  });
+  var t0s=document.getElementById("t0save");
+  if(t0s) t0s.onclick=function(){
+    if(!S.t0.pick){document.getElementById("t0msg").textContent=(S.lang==="it"?"Scegli un candidato.":"Choose a candidate.");return;}
+    S.t0.conf=parseInt(document.getElementById("conf").value,10);
+    var w=document.getElementById("wt"); if(w) S.t0.wt=parseInt(w.value,10);
+    S.t0.why=document.getElementById("why").value; save();
+    document.getElementById("t0msg").textContent=L(T0.saved);
+  };
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lk]"),function(el){
+    el.onclick=function(){S.t1[el.getAttribute("data-lk")]=parseInt(el.getAttribute("data-v"),10);save();render();};
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-pair]"),function(el){
+    el.onclick=function(){S.sa[el.getAttribute("data-pair")]=el.getAttribute("data-d");save();render();};
+  });
+  var u=document.getElementById("undo");
+  if(u) u.onclick=function(){delete S.sa[Object.keys(S.sa).length-1];save();render();};
+  var rd=document.getElementById("redo");
+  if(rd) rd.onclick=function(){S.sa={};save();render();};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-q2]"),function(el){
+    el.onclick=function(){
+      var q=el.getAttribute("data-q2"); if(S.sb[q]!=null) return;
+      S.sb[q]=parseInt(el.getAttribute("data-oi"),10);save();render();};
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-sc]"),function(el){
+    el.onchange=function(){
+      var was=Object.keys(S.sc).length;
+      S.sc[el.getAttribute("data-sc")]=parseInt(el.value,10); save();
+      /* ridisegno solo quando il quadro si completa o cambia da completo */
+      if(Object.keys(S.sc).length===5 && (was<5 || true)) render();
+    };
+  });
+  var og=document.getElementById("opengate");
+  if(og) og.onclick=function(){S.t2open=true;save();render();};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-t3]"),function(el){
+    el.oninput=function(){
+      var i=el.getAttribute("data-t3"),f=el.getAttribute("data-f");
+      if(!S.t3[i]) S.t3[i]={};
+      S.t3[i][f]=el.value; save();};
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-mark]"),function(el){
+    el.onclick=function(){
+      var i=el.getAttribute("data-mark");
+      S.t3pick=(S.t3pick===i)?null:i; save(); render();};
+  });
+  var c3=document.getElementById("copy3");
+  if(c3) c3.onclick=function(){
+    var order=[0,1,2];
+    if(S.t3pick!=null) order=[parseInt(S.t3pick,10)].concat([0,1,2].filter(function(x){return x!==parseInt(S.t3pick,10);}));
+    var txt=L(UI.title)+" — "+L(SEC[4].n)+"\n\n";
+    order.forEach(function(i){
+      var v=S.t3[i]||{};
+      txt+=(String(i)===S.t3pick?"★ ":"")+L(T3.items[i].t)+"\n"+
+           L(T3.fq)+": "+(v.q||"—")+"\n"+L(T3.fa)+": "+(v.a||"—")+"\n\n";
+    });
+    txt+=(S.lang==="it"
+      ? "Incolla la riga «Quando» come nota nel calendario, alla data indicata."
+      : "Paste the \"When\" line as a calendar note, on the date given.")+"\n";
+    var m=document.getElementById("cmsg");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){m.textContent=L(T3.copied);},
+        function(){m.textContent=L(T3.nocopy);});
+    } else m.textContent=L(T3.nocopy);
+  };
+}
+
+document.documentElement.lang=S.lang;
+render();
+if("serviceWorker" in navigator){
+  window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
+}
+</script>
+</body>
+</html>
