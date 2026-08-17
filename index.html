@@ -723,15 +723,15 @@ function vSC(){
   /* parte 3 */
   h+="<div class='hr'></div><h2>"+L(SC.p3t)+"</h2><p class='lede'>"+L(SC.p3i)+"</p>";
   SC.q3.forEach(function(q,i){
-    var v=S.sc[i]==null?3:S.sc[i];
-    h+="<div class='card'><div>"+L(q.t)+"</div>"+
-       "<input type='range' min='1' max='5' step='1' data-sc='"+i+"' value='"+v+"'>"+
-       "<div class='slabel'><span>"+L(SC.none)+"</span><span>"+L(SC.much)+"</span></div></div>";
+    h+="<div class='card'><div>"+L(q.t)+"</div><div class='lk'>";
+    for(var v=1;v<=5;v++)
+      h+="<button data-sc='"+i+"' data-v='"+v+"' class='"+(S.sc[i]===v?"sel":"")+"'>"+v+"</button>";
+    h+="</div><div class='lkends'><span>"+L(SC.none)+"</span><span>"+L(SC.much)+"</span></div></div>";
   });
   if(Object.keys(S.sc).length<5){
     h+="<p class='prog'>"+(S.lang==="it"
-      ?"Sposta tutti e cinque i cursori — anche solo per confermare il valore centrale — per vedere il quadro."
-      :"Move all five sliders — even just to confirm the middle value — to see the picture.")+"</p>";
+      ?"Rispondi a tutte e cinque per vedere il quadro. ("+Object.keys(S.sc).length+" / 5)"
+      :"Answer all five to see the picture. ("+Object.keys(S.sc).length+" / 5)")+"</p>";
   }else{
     var arr=SC.q3.map(function(q,i){return {k:q.k,v:S.sc[i]};}).sort(function(a,b){return b.v-a.v;});
     h+="<div class='card tint'><p class='eyebrow'>"+L(SC.p3r)+"</p><div class='rank'>";
@@ -885,12 +885,9 @@ function bind(){
       S.sb[q]=parseInt(el.getAttribute("data-oi"),10);save();render();};
   });
   Array.prototype.forEach.call(document.querySelectorAll("[data-sc]"),function(el){
-    el.onchange=function(){
-      var was=Object.keys(S.sc).length;
-      S.sc[el.getAttribute("data-sc")]=parseInt(el.value,10); save();
-      /* ridisegno solo quando il quadro si completa o cambia da completo */
-      if(Object.keys(S.sc).length===5 && (was<5 || true)) render();
-    };
+    el.onclick=function(){
+      S.sc[el.getAttribute("data-sc")]=parseInt(el.getAttribute("data-v"),10);
+      save(); render();};
   });
   var og=document.getElementById("opengate");
   if(og) og.onclick=function(){S.t2open=true;save();render();};

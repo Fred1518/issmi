@@ -1,7 +1,7 @@
 /* Service worker: rende l'app utilizzabile anche senza rete.
    Cambiare CACHE ad ogni modifica dei file, altrimenti i telefoni
    che hanno gia' aperto l'app continuerebbero a vedere la versione vecchia. */
-var CACHE = "issmi29-v2";
+var CACHE = "issmi29-v3";
 var FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", function (e) {
